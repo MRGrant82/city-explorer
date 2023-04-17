@@ -69,19 +69,22 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-# Project Name
+# Project Name - City-Explorer
 
-**Author**: Your Name Goes Here
+**Author**: Michael Grant
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+City Explorer will allow users to enter a location and view a map of the area.  When the user inputs the name of a location, the app will return the lat and long for the location.  The app then uses that data to retrieve a map of the location from a third-party API.  
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
-
+Clone the repository from GitHub onto your local machine.
+Install the necessary dependencies using a package manager like npm or yarn.
+Set up the API keys for the third-party API used to retrieve the location and map data.
+Start the React application by running npm start in the terminal.
+Open the application in your preferred web browser.
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+s application was built using React, a popular front-end JavaScript library. The components used in the application include App, Header, Main, LocationForm, LocationMap, and Footer.
 
 ## Change Log
 <!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
@@ -91,6 +94,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 
+[White board](whiteboard.png)
 
 Name of feature:Lab 6
 
@@ -101,3 +105,4 @@ Start time: 1pm EST
 Finish time: _____
 
 Actual time needed to complete: _____
+
