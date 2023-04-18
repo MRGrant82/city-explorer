@@ -102,7 +102,7 @@ Estimate of time needed to complete: 4 Hours
 
 Start time: 1pm EST
 
-Finish time: _____
+Finish time: 1:30 am EST
 
-Actual time needed to complete: _____
+Actual time needed to complete: 5 hours
 
