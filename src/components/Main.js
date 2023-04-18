@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
-// TODO: Create a state for location, coordinates, and error messages
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 
 class Main extends React.Component {
   constructor(props) {
@@ -46,22 +45,53 @@ class Main extends React.Component {
     });
   }
 
-  // TODO: Create the MapDisplay component that 
-  // renders a map 
-  // set the center of the map to the lat and long passed via the coordinates state
-  // adjust the map zoom level, style, etc.
-
-  // TODO: Create the ErrorMessage component that conditionally renders an error message based on message prop
-  // import the ErrorMessage
-  // update the errorMessage state when an error occurs in the getCoordinates() function
-  // render the LocationInput, MapDisplay and ErrorMessage components conditionally based on the coordinates and errorMessage states
-
   render() {
+    const { coordinates, errorMessage } = this.state;
     return (
       <div>
-        {/* TODO: render the LocationInput component */}
-        {/* TODO: render the MapDisplay component */}
-        {/* TODO: render the ErrorMessage component */}
+        <h1>Location App</h1>
+        <form onSubmit={this.getCoordinates}>
+          <label htmlFor="location">Enter Location:</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            onChange={this.handleLocationInput}
+          />
+          <button type="submit">Search</button>
+        </form>
+        {coordinates.latitude && coordinates.longitude ? (
+          <MapDisplay coordinates={coordinates} zoom={15} />
+        ) : null}
+        {errorMessage ? <ErrorMessage message={errorMessage} /> : null}
+      </div>
+    );
+  }
+}
+
+class MapDisplay extends React.Component {
+  render() {
+    const { coordinates, zoom } = this.props;
+  
+    return (
+      <div>
+        <h2>City Map</h2>
+        <img
+          src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${coordinates.latitude},${coordinates.longitude}&zoom=${zoom}`}
+          alt="Map"
+        />
+      </div>
+    );
+  }
+}
+
+class ErrorMessage extends React.Component {
+  render() {
+    const { message } = this.props;
+      
+    return (
+      <div>
+        {message ? <p>{message}</p> : null}
       </div>
     );
   }
