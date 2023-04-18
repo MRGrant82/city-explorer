@@ -32,18 +32,18 @@ class Main extends React.Component {
       });
     } catch (error) {
       console.error(error);
-    
+
       this.setState({
         errorMessage: 'Unable to retrieve location data. Please try again later.'
       });
     }
-  }
+  };
 
   handleLocationInput = (ev) => {
     this.setState({
       location: ev.target.value
     });
-  }
+  };
 
   render() {
     const { coordinates, errorMessage } = this.state;
