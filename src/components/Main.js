@@ -58,23 +58,23 @@ class Main extends React.Component {
           <button type="submit">Search</button>
         </form>
         {coordinates.latitude && coordinates.longitude ? (
-          <div>
+          <div style={{ textAlign: 'center' }}>
             <h2>{coordinates.city}</h2>
             <p>Latitude: {coordinates.latitude}</p>
             <p>Longitude: {coordinates.longitude}</p>
-            <div
-              style={{
-                height: '400px',
-                width: '100%',
-                backgroundImage: `url(https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${coordinates.latitude},${coordinates.longitude}&zoom=15)`
-              }}
-            ></div>
+            <img
+              src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${coordinates.latitude},${coordinates.longitude}&zoom=15`}
+              alt="Location Map"
+              style={{ maxWidth: '100%', height: 'auto' }}
+            />
           </div>
         ) : null}
         {errorMessage ? <p>{errorMessage}</p> : null}
       </div>
     );
   }
+  
+  
 }
 
 export default Main;
