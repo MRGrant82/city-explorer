@@ -1,25 +1,46 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 class MapDisplay extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      zoom: 15
+    };
+  }
+
+  handleZoomIn = () => {
+    this.setState({
+      zoom: this.state.zoom + 1
+    });
+  };
+
+  handleZoomOut = () => {
+    this.setState({
+      zoom: this.state.zoom - 1
+    });
+  };
+
   render() {
-    const { coordinates } = this.props;
+    const { cityData } = this.props;
+    const lat = cityData ? cityData.lat : null;
+    const lon = cityData ? cityData.lon : null;
+    const zoom = this.state.zoom;
+
+    const mapUrl = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATION_IQ_API_KEY}&center=${lat},${lon}&zoom=${zoom}`;
 
     return (
-      <div style={{ height: '80vh', width: '100%' }}>
-        <MapContainer
-          center={[coordinates.latitude, coordinates.longitude]}
-          zoom={15}
-          scrollWheelZoom={true}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-          />
-          <Marker position={[coordinates.latitude, coordinates.longitude]}>
-            <Popup>{this.props.city}</Popup>
-          </Marker>
-        </MapContainer>
+      <div style={{ height: '100vh', width: '100%', position: 'relative' }}>
+        {lat && lon ? (
+          <>
+            <img src={mapUrl} alt="Location Map" />
+            <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: '1000' }}>
+              <button onClick={this.handleZoomIn}>+</button>
+              <button onClick={this.handleZoomOut}>-</button>
+            </div>
+          </>
+        ) : (
+          <p>Loading map...</p>
+        )}
       </div>
     );
   }

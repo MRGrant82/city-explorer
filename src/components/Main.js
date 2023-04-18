@@ -1,7 +1,4 @@
 import React from 'react';
-import axios from 'axios';
-import MapDisplay from './MapDisplay';
-import ErrorMessage from './ErrorMessage';
 
 class Main extends React.Component {
   constructor(props) {
@@ -19,14 +16,14 @@ class Main extends React.Component {
       const API_KEY = process.env.REACT_APP_LOCATIONIQ_API_KEY;
       const URL = `https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${this.state.location}&format=json`;
 
-      const response = await axios.get(URL);
-      const data = response.data[0];
+      const response = await fetch(URL);
+      const data = await response.json();
 
       this.setState({
         coordinates: {
-          latitude: data.lat,
-          longitude: data.lon,
-          city: data.display_name
+          latitude: data[0].lat,
+          longitude: data[0].lon,
+          city: data[0].display_name
         },
         errorMessage: ''
       });
@@ -65,10 +62,16 @@ class Main extends React.Component {
             <h2>{coordinates.city}</h2>
             <p>Latitude: {coordinates.latitude}</p>
             <p>Longitude: {coordinates.longitude}</p>
-            <MapDisplay coordinates={coordinates} />
+            <div
+              style={{
+                height: '400px',
+                width: '100%',
+                backgroundImage: `url(https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${coordinates.latitude},${coordinates.longitude}&zoom=15)`
+              }}
+            ></div>
           </div>
         ) : null}
-        {errorMessage ? <ErrorMessage message={errorMessage} /> : null}
+        {errorMessage ? <p>{errorMessage}</p> : null}
       </div>
     );
   }
