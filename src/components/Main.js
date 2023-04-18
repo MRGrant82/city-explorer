@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, ZoomControl, useMapEvents } from 'react-leaflet';
 
 class Main extends React.Component {
   constructor(props) {
@@ -12,7 +12,6 @@ class Main extends React.Component {
     };
   }
 
-  // TODO: getCoordinates() function using axios to get lat and long 
   getCoordinates = async (ev) => {
     ev.preventDefault();
     try {
@@ -35,10 +34,6 @@ class Main extends React.Component {
     }
   }
 
-  // TODO: create the LocationInput component that will render an input field and submit button
-  // use an event handler to update the location state when input changes
-  // use an event handler to call the getCoordinates() function when the user submits the location
-  
   handleLocationInput = (ev) => {
     this.setState({
       location: ev.target.value
@@ -70,19 +65,51 @@ class Main extends React.Component {
 }
 
 class MapDisplay extends React.Component {
+  constructor(props) {
+    super(props);
+    this.mapRef = React.createRef();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.coordinates !== this.props.coordinates) {
+      const map = this.mapRef.current.leafletElement;
+      map.flyTo([this.props.coordinates.latitude, this.props.coordinates.longitude], 15);
+    }
+  }
+
   render() {
-    const { coordinates, zoom } = this.props;
-  
+    const { coordinates } = this.props;
+
     return (
-      <div>
-        <h2>City Map</h2>
-        <img
-          src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_API_KEY}&center=${coordinates.latitude},${coordinates.longitude}&zoom=${zoom}`}
-          alt="Map"
-        />
+      <div style={{ height: '100vh', width: '100%', border: '5px solid black' }}>
+        <MapContainer
+          ref={this.mapRef}
+          style={{ height: '100%', width: '100%' }}
+          center={[coordinates.latitude, coordinates.longitude]}
+          zoom={15}
+          zoomControl={false}
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <Marker position={[coordinates.latitude, coordinates.longitude]} />
+          <ZoomControl position="bottomright" />
+          <CustomZoomControl />
+        </MapContainer>
       </div>
     );
   }
+}
+
+function CustomZoomControl() {
+  const map = useMapEvents({
+    zoomstart: () => {
+      map.scrollWheelZoom.disable();
+    },
+    zoomend: () => {
+      map.scrollWheelZoom.enable();
+    },
+  });
+
+  return null;
 }
 
 class ErrorMessage extends React.Component {
