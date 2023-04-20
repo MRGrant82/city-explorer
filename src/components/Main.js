@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 class Main extends React.Component {
@@ -16,6 +17,9 @@ class Main extends React.Component {
       const API_KEY = process.env.REACT_APP_LOCATIONIQ_API_KEY;
       const URL = `https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${this.state.location}&format=json`;
 
+      
+      
+      
       const response = await fetch(URL);
       const data = await response.json();
 
@@ -27,6 +31,13 @@ class Main extends React.Component {
         },
         errorMessage: ''
       });
+
+      let weatherUrl = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.location}&lat=${data[0].lat}&lon=${data[0].lon}`;
+      console.log('This is weather URL', weatherUrl)
+
+      let weatherResult = await axios.get(weatherUrl)
+      console.log(weatherResult);
+
     } catch (error) {
       console.error(error);
 
